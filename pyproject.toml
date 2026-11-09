@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "b2b-lead-scoring-intelligence"
+version = "1.0.0"
+description = "B2B industrial lead scoring, Ideal Customer Profile (ICP) tiering, cross-selling matrix, and executive dashboard generator."
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+authors = [
+    {name = "Wenderson Werneck", email = "cfpromlk@gmail.com"}
+]
+dependencies = [
+    "pydantic>=2.0.0",
+    "pandas>=2.0.0"
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0.0"
+]
