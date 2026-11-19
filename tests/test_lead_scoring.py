@@ -56,3 +56,36 @@ def test_cross_sell_recommender():
     # Non-existent code
     empty = CrossSellRecommender.recommend(["999999"])
     assert empty == []
+
+
+def test_fiscal_keyed_portfolio_merges_aliases_and_tracks_variant_mix():
+    from src.portfolio_identity import canonicalize_fiscal_id, build_fiscal_keyed_portfolio
+
+    assert canonicalize_fiscal_id("EE-102.938/475") == "EE102938475"
+
+    leads = [
+        CompanyLead(
+            tax_id="EE-102.938-475",
+            company_name="Nordic Foundry AS",
+            account_status="ACTIVE_CLIENT",
+            annual_revenue_usd=4_000_000.0,
+        ),
+        CompanyLead(
+            tax_id="ee102938475",
+            company_name="Nordic Foundry Group (Legacy Alias)",
+            account_status="ACTIVE_CLIENT",
+            annual_revenue_usd=4_000_000.0,
+        ),
+    ]
+    movements = [
+        {"tax_id": "EE 102938475", "variant": "FeSi 75% Lump", "movement_type": "DIRECT_SALE", "metric_tons": 42.5},
+        {"tax_id": "EE-102938475", "variant": "FeSi 75% Fines", "movement_type": "CONSIGNMENT_RETURN", "metric_tons": 7.5},
+    ]
+
+    portfolio = build_fiscal_keyed_portfolio(leads, movements)
+    assert len(portfolio) == 1
+    entry = portfolio["EE102938475"]
+    assert len(entry["aliases"]) == 2
+    assert entry["total_tons"] == 50.0
+    assert entry["variant_mix_tons"]["FeSi 75% Lump"] == 42.5
+    assert entry["movement_catalog"]["CONSIGNMENT_RETURN"] == 1
