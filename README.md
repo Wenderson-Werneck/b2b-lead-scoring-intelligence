@@ -8,6 +8,22 @@ A multi-attribute Ideal Customer Profile (ICP) lead scoring, tier classification
 
 ---
 
+## 🖥️ Interactive Visual Demo (1-Command Launch)
+
+![B2B Industrial Lead Scoring — Live Demo Preview](docs/preview.png)
+
+Launch the interactive 7-dimension ICP scoring, cross-sell recommender, and fiscal-identity portfolio dashboard preloaded with **100% synthetic B2B accounts**:
+
+```bash
+git clone https://github.com/Wenderson-Werneck/b2b-lead-scoring-intelligence.git
+cd b2b-lead-scoring-intelligence
+pip install -r requirements.txt
+python demo_app.py
+# Open http://127.0.0.1:8001
+```
+
+---
+
 ## 🏗 Scoring Framework & Mathematical Formulation
 
 The engine computes an objective Lead Fit Score $S \in [0, 100]$ across 7 independent commercial and logistical dimensions:
